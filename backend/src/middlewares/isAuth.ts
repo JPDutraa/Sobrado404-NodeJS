@@ -23,6 +23,9 @@ export function isAuth(
         //validar token
         const { sub } = verify(token, process.env.JWT_SECRET) as Payload;
 
+        //recuperar informações do usuário e colocar dentro de um variável user_id dentro do req
+        req.user_id = sub;
+
         return next();
 
     }catch(err){
