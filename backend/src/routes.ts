@@ -11,6 +11,11 @@ import uploadConfig from './config/multer';
 import { ListByCategoryController } from './controllers/product/ListByCategoryController';
 import { CreateOrderController } from './controllers/order/CreateOrderController';
 import { RemoveOrderController } from './controllers/order/RemoveOrderController';
+import { AddItemController } from './controllers/order/AddItemController';
+import { RemoveItemController } from './controllers/order/RemoveItemController';
+import { SendOrderController } from './controllers/order/SendOrderController';
+import { ListOrderController } from './controllers/order/ListOrderController';
+import { DetailOrderController } from './controllers/order/DetailOrderController';
 
 const router = Router();
 
@@ -32,6 +37,11 @@ router.get('/category/product', isAuth, new ListByCategoryController().handle);
 // --- Routes Orders ---
 router.post('/order', isAuth, new CreateOrderController().handle);
 router.delete('/order', isAuth, new RemoveOrderController().handle);
+router.post('/order/add', isAuth, new AddItemController().handle);
+router.delete('/order/remove', isAuth, new RemoveItemController().handle);
+router.put('/order/send', isAuth, new SendOrderController().handle);   
+router.get('/orders', isAuth, new ListOrderController().handle);
+router.get('/order/detail', isAuth, new DetailOrderController().handle);
 
 
 export { router }; 
