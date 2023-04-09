@@ -68,10 +68,17 @@ export default function Product({categoryList}: CategoryProps){
 
       }else{
         data.append('name', name);
-        data.append('price', Number(price);
+        data.append('price', price.toFixed(2));
         data.append('description', description);
         data.append('category', categories[categorySelected].id);
         data.append('file', imageAvatar);
+
+        console.log('name:', name);
+        console.log('price:', price.toFixed(2));
+        console.log('description:', description);
+        console.log('category:', categories[categorySelected].id);
+        console.log('file:', imageAvatar);
+        
 
         const apiClient = setupAPIClient();
 
