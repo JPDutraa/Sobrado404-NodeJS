@@ -20,7 +20,7 @@ interface CategoryProps{
 export default function Product({categoryList}: CategoryProps){
 
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
 
 
@@ -62,13 +62,13 @@ export default function Product({categoryList}: CategoryProps){
 
     try{
       const data = new FormData();
-       if(name === '' || price === '' || description === '' || imageAvatar === null){
+       if(name === '' || price === 0 || description === '' || imageAvatar === null){
         toast.error('Preencha todos os campos!');
         return;
 
       }else{
         data.append('name', name);
-        data.append('price', String(price));
+        data.append('price', Number(price);
         data.append('description', description);
         data.append('category', categories[categorySelected].id);
         data.append('file', imageAvatar);
@@ -147,7 +147,7 @@ export default function Product({categoryList}: CategoryProps){
             placeholder="Preço do produto"
             className={styles.input}
             value={price}
-            onChange={event => setPrice(event.target.value)}
+            onChange={event => setPrice(parseFloat(event.target.value))}
             />      
 
             <textarea 
