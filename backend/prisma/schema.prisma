@@ -36,7 +36,7 @@ model Product{
   id String @id @default(uuid())
   name String
   description String
-  price Float
+  price String
   category_id String
   banner String
   created_at DateTime? @default(now())

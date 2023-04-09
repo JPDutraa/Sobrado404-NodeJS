@@ -2,7 +2,7 @@ import prismaClient from "../../prisma";
 
 interface ProductRequest{
   name: string;
-  price: number;
+  price: string;
   description: string;
   banner: string;
   category_id: string;

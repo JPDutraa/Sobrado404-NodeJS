@@ -16,45 +16,47 @@ interface CategoryProps{
   categoryList: ItemProps[];
 }
 
-
-export default function Product({categoryList}: CategoryProps){
+export default function Product({ categoryList }: CategoryProps){
 
   const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
-
-
   const [avatarUrl, setAvatarUrl] = useState('');
-  const [imageAvatar, setImageAvatar] = useState<File | null>(null);
+  const [imageAvatar, setImageAvatar] = useState(null);
 
   const [categories, setCategories] = useState(categoryList || [])
   const [categorySelected, setCategorySelected] = useState(0)
 
-  function handleFile(event:ChangeEvent<HTMLInputElement>){
-    if(!event.target.files){
+
+  function handleFile(e: ChangeEvent<HTMLInputElement>){
+
+    if(!e.target.files){
       return;
     }
 
-    const image = event.target.files[0];
+    const image = e.target.files[0];
 
     if(!image){
       return;
     }
 
-    if(image.type !== 'image/png' && image.type !== 'image/jpeg' && image.type !== 'image/jpg'){
-      toast.error('Formato de imagem inválido!');
-      return;
-    }else{
+    if(image.type === 'image/jpeg' || image.type === 'image/png' || image.type === 'image/jpg'){
+
       setImageAvatar(image);
-      setAvatarUrl(URL.createObjectURL(image));
+      setAvatarUrl(URL.createObjectURL(e.target.files[0]))
+
     }
+
   }
 
+  //Quando você seleciona uma nova categoria na lista
   function handleChangeCategory(event){
-    // console.log('Categoria selecionada ', event.target.value)
-  //  console.log('Categoria selecionada ', categories[event.target.value])
+    // console.log("POSICAO DA CATEGORIA SELECIONADA ", event.target.value)
+   //console.log('Categoria selecionada ', categories[event.target.value])
+
     setCategorySelected(event.target.value)
+
   }
 
   async function handleRegister(event: FormEvent){
@@ -62,35 +64,35 @@ export default function Product({categoryList}: CategoryProps){
 
     try{
       const data = new FormData();
-       if(name === '' || price === 0 || description === '' || imageAvatar === null){
-        toast.error('Preencha todos os campos!');
+
+      if(name === '' || price === '' || description === '' || imageAvatar === null){
+        toast.error("Preencha todos os campos!");
         return;
-
-      }else{
-        data.append('name', name);
-        data.append('price', price.toFixed(2));
-        data.append('description', description);
-        data.append('category', categories[categorySelected].id);
-        data.append('file', imageAvatar);
-
-        console.log('name:', name);
-        console.log('price:', price.toFixed(2));
-        console.log('description:', description);
-        console.log('category:', categories[categorySelected].id);
-        console.log('file:', imageAvatar);
-        
-
-        const apiClient = setupAPIClient();
-
-        await apiClient.post('/product', data);
-
-        toast.success('Produto cadastrado com sucesso!');
       }
 
+      data.append('name', name);
+      data.append('price', price);
+      data.append('description', description);
+      data.append('category_id', categories[categorySelected].id);
+      data.append('file', imageAvatar);
+
+      const apiClient = setupAPIClient();
+
+      await apiClient.post('/product', data);
+
+      toast.success('Cadastrado com sucesso!')
+
     }catch(err){
-      toast.error('Erro ao cadastrar produto!');
-      console.log(err)
+      console.log(err);
+      toast.error("Ops erro ao cadastrar!")
     }
+
+    setName('');
+    setPrice('');
+    setDescription('')
+    setImageAvatar(null);
+    setAvatarUrl('');
+
   }
     
 
@@ -149,12 +151,11 @@ export default function Product({categoryList}: CategoryProps){
             />
 
             <input 
-            type="number"
-            step="0.01"
+            type="text"
             placeholder="Preço do produto"
             className={styles.input}
             value={price}
-            onChange={event => setPrice(parseFloat(event.target.value))}
+            onChange={event => setPrice(event.target.value)}
             />      
 
             <textarea 
