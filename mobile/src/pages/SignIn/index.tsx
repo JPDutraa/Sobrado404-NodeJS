@@ -54,7 +54,6 @@ export default function SignIn() {
                 )}
                 </TouchableOpacity>
             </View> 
-        <Text>Teste</Text>
         </View>
     );
     }
