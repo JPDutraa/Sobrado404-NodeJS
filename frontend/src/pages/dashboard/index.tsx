@@ -95,15 +95,6 @@ export default function Dashboard({ orders }: HomeProps){
 
   Modal.setAppElement('#__next');
 
-  let refreshTimer;
-
-  function startRefreshTimer(){
-    refreshTimer = setInterval(() => {
-      handleRefreshOrders();
-    }, 10000);
-  }
-
-  startRefreshTimer();
 
   return(
     <>
