@@ -1,0 +1,17 @@
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// Componentes
+import SignIn from "../pages/SignIn";
+
+const Stack = createNativeStackNavigator();
+
+function AuthRoutes() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="SigIn" component={SignIn} options={{ headerShown: false}} />
+    </Stack.Navigator>
+  );
+}
+
+export default AuthRoutes;
