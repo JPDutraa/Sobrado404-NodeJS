@@ -165,7 +165,7 @@ export default function Product({ categoryList }: CategoryProps){
               onChange={event => setDescription(event.target.value)}
             /> 
 
-            <button className={styles.buttonAdd} type="submit">
+            <button className={styles.buttonAdd} type="submit" onClick={() => window.location.reload()}>
               Cadastrar  
             </button>   
 
