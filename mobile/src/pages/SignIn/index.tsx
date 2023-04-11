@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
+import { AuthContext } from "../../contexts/AuthContexts";
 
 export default function SignIn() {
+
+    const { signIn } = useContext(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleLogin(){
+    async function handleLogin(){
         if(email === '' || password === ''){
             alert('Preencha todos os campos!');
         }
+
+        await signIn({ email, password });
     }
 
 
