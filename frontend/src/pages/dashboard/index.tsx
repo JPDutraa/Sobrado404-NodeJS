@@ -100,7 +100,7 @@ export default function Dashboard({ orders }: HomeProps){
   function startRefreshTimer() {
     refreshTimer = setInterval(() => {
       handleRefreshOrders();
-    }, 15000); // Aumente este valor, se possível, por exemplo, 10000 (10 segundos)
+    }, 30000); // Aumente este valor, se possível, por exemplo, 10000 (10 segundos)
   }
   
   function stopRefreshTimer() {
