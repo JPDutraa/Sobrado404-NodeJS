@@ -2,7 +2,6 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import Head from 'next/head';
 import styles from './styles.module.scss';
 import { Header } from "@/src/components/ui/Header"
-import { FiUpload } from 'react-icons/fi';
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { toast } from 'react-toastify';
 import { setupAPIClient } from '@/src/services/api';
@@ -20,35 +19,11 @@ export default function Product({ categoryList }: CategoryProps){
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
 
-  const [avatarUrl, setAvatarUrl] = useState('');
-  const [imageAvatar, setImageAvatar] = useState(null);
 
   const [categories, setCategories] = useState(categoryList || [])
   const [categorySelected, setCategorySelected] = useState(0)
 
-
-  function handleFile(e: ChangeEvent<HTMLInputElement>){
-
-    if(!e.target.files){
-      return;
-    }
-
-    const image = e.target.files[0];
-
-    if(!image){
-      return;
-    }
-
-    if(image.type === 'image/jpeg' || image.type === 'image/png' || image.type === 'image/jpg'){
-
-      setImageAvatar(image);
-      setAvatarUrl(URL.createObjectURL(e.target.files[0]))
-
-    }
-
-  }
 
   //Quando você seleciona uma nova categoria na lista
   function handleChangeCategory(event){
@@ -65,16 +40,14 @@ export default function Product({ categoryList }: CategoryProps){
     try{
       const data = new FormData();
 
-      if(name === '' || price === '' || description === '' || imageAvatar === null){
+      if(name === '' || price === ''){
         toast.error("Preencha todos os campos!");
         return;
       }
 
       data.append('name', name);
       data.append('price', price);
-      data.append('description', description);
       data.append('category_id', categories[categorySelected].id);
-      data.append('file', imageAvatar);
 
       const apiClient = setupAPIClient();
 
@@ -89,9 +62,6 @@ export default function Product({ categoryList }: CategoryProps){
 
     setName('');
     setPrice('');
-    setDescription('')
-    setImageAvatar(null);
-    setAvatarUrl('');
 
   }
     
@@ -108,26 +78,6 @@ export default function Product({ categoryList }: CategoryProps){
           <h1>Novo produto</h1>
 
           <form className={styles.form} onSubmit={handleRegister}>
-
-
-            <label className={styles.labelAvatar}>
-              <span>
-                <FiUpload size={45} color="white"/>
-              </span>
-
-              <input type='file' accept='image/png, image/jpeg, image/jpg' onChange={handleFile} />
-
-              {avatarUrl && (
-                              <img
-                              className={styles.preview}
-                              src={avatarUrl}
-                              alt='foto do produto'
-                              width={250}
-                              height={250}
-                              />
-              )}
-
-            </label>
 
 
             <select value={categorySelected} onChange={handleChangeCategory}>
@@ -158,12 +108,6 @@ export default function Product({ categoryList }: CategoryProps){
             onChange={event => setPrice(event.target.value)}
             />      
 
-            <textarea 
-              placeholder="Descreva seu produto..."
-              className={styles.input}
-              value={description}
-              onChange={event => setDescription(event.target.value)}
-            /> 
 
             <button className={styles.buttonAdd} type="submit" onClick={() => window.location.reload()}>
               Cadastrar  

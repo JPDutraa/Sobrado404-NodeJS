@@ -17,6 +17,8 @@ import { SendOrderController } from './controllers/order/SendOrderController';
 import { ListOrderController } from './controllers/order/ListOrderController';
 import { DetailOrderController } from './controllers/order/DetailOrderController';
 import { FinishOrderController } from './controllers/order/FinishOrderController';
+import { HistoricOrderController } from './controllers/historic/HistoricOrderController';
+import { ListHistoricController } from './controllers/historic/ListHistoricController';
 
 const router = Router();
 
@@ -44,6 +46,10 @@ router.put('/order/send', isAuth, new SendOrderController().handle);
 router.get('/orders', isAuth, new ListOrderController().handle);
 router.get('/order/detail', isAuth, new DetailOrderController().handle);
 router.put('/order/finish', isAuth, new FinishOrderController().handle);
+
+// --- Routes Historic ---
+router.put('/order/historic', isAuth, new HistoricOrderController().handle);
+router.get('/order/listhistoric', isAuth, new ListHistoricController().handle);
 
 
 export { router }; 

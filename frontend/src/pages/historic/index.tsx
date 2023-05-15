@@ -2,27 +2,22 @@ import { useState } from 'react'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import Head from 'next/head';
 import styles from './styles.module.scss';
-
 import { Header } from "@/src/components/ui/Header"
 import { FiRefreshCcw } from 'react-icons/fi'
-
 import { setupAPIClient } from '../../services/api'
-
 import { ModalOrder } from '../../components/Modal'
-
 import Modal from 'react-modal';
 
 type OrderProps = {
   id: string;
   table: string | number;
   status: boolean;
-  historic: boolean;
   draft: boolean;
   name: string | null;
 }
 
 interface HomeProps{
-  orders: OrderProps[];
+  historic: OrderProps[];
 }
 
 export type OrderItemProps = {
@@ -40,14 +35,14 @@ export type OrderItemProps = {
     id: string;
     table: string | number;
     status: boolean;
-    historic: boolean
+    historic: boolean;
     name: string | null;
   }
 }
 
-export default function Dashboard({ orders }: HomeProps){
+export default function Historic({ historic }: HomeProps){
 
-  const [orderList, setOrderList] = useState(orders || [])
+  const [historicList, setHistoricList] = useState(historic || [])
 
   const [modalItem, setModalItem] = useState<OrderItemProps[]>()
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,15 +68,15 @@ export default function Dashboard({ orders }: HomeProps){
   }
 
 
-  async function handleFinishItem(id: string){
+  async function handleFinishHistoricItem(id: string){
     const apiClient = setupAPIClient();
-    await apiClient.put('/order/finish', {
+    await apiClient.put('/order/historic', {
       order_id: id,
     })
 
-    const response = await apiClient.get('/orders');
+    const response = await apiClient.get('/order/listhistoric');
 
-    setOrderList(response.data);
+    setHistoricList(response.data);
     setModalVisible(false);
   }
 
@@ -89,8 +84,8 @@ export default function Dashboard({ orders }: HomeProps){
   async function handleRefreshOrders(){
     const apiClient = setupAPIClient();
 
-    const response = await apiClient.get('/orders')
-    setOrderList(response.data);
+    const response = await apiClient.get('/order/listhistoric')
+    setHistoricList(response.data);
 
   }
 
@@ -113,7 +108,7 @@ export default function Dashboard({ orders }: HomeProps){
   return(
     <>
     <Head>
-      <title>Sobrado404 | DASHBOARD</title>
+      <title>Sobrado404 | HISTÓRICO</title>
     </Head>
     <div>
       <Header/>
@@ -121,7 +116,7 @@ export default function Dashboard({ orders }: HomeProps){
       <main className={styles.container}>
 
         <div className={styles.containerHeader}>
-          <h1>Últimos pedidos</h1>
+          <h1>Histórico</h1>
           <button onClick={handleRefreshOrders}>
             <FiRefreshCcw size={25} color="#3fffa3"/>
           </button>
@@ -129,13 +124,13 @@ export default function Dashboard({ orders }: HomeProps){
 
         <article className={styles.listOreders}>
 
-          {orderList.length === 0 && (
+          {historicList.length === 0 && (
             <span className={styles.emptyList}>
-              Nenhum pedido aberto foi encontrado...
+              Nenhum pedido aberto foi encontrado no histórico...
             </span>
           )}
 
-          {orderList.map( item => (
+          {historicList.map( item => (
             <section  key={item.id} className={styles.orderItem}> 
               <button onClick={ () => handleOpenModalView(item.id) }>
                 <div className={styles.tag}></div>
@@ -153,7 +148,7 @@ export default function Dashboard({ orders }: HomeProps){
           isOpen={modalVisible}
           onRequestClose={handleCloseModal}
           order={modalItem}
-          handleFinishOrder={ handleFinishItem }
+          handleFinishOrder={ handleFinishHistoricItem }
         />
       )}
 

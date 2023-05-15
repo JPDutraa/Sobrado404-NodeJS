@@ -17,12 +17,16 @@ export function Header(){
                 </Link>
 
                 <nav className={styles.menuNav}>
+                    <Link legacyBehavior href='/historic'>
+                        <a>Histórico</a>
+                    </Link>
+
                     <Link legacyBehavior href='/category'>
-                        <a>Categoria</a>
+                        <a>Criar Categoria</a>
                     </Link>
                     
                     <Link legacyBehavior href='/product'>
-                        <a>Cardapio</a>
+                        <a>Criar Produto</a>
                     </Link>
 
                     <button onClick={signOut}>

@@ -35,10 +35,8 @@ model Category{
 model Product{
   id String @id @default(uuid())
   name String
-  description String
   price String
   category_id String
-  banner String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -51,10 +49,10 @@ model Product{
 
 model Order{
   id String @id @default(uuid())
-  name String?
   table Int
   status Boolean @default(false) //Se o pedido está finalizado
   draft Boolean @default(true) //Se o pedido está em rascunho
+  historic Boolean @default(false) //Se o pedido está no histórico
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -68,6 +66,7 @@ model Orderitem{
   order_id String
   product_id String
   quantity Int //Quantidade de produtos
+  coment String?
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 

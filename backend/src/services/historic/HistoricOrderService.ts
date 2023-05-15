@@ -4,15 +4,14 @@ interface FinishRequest{
     order_id: string;
 }
 
-class FinishOrderService{
+class FinishHistoricOrderService{
     async execute({ order_id }: FinishRequest){
         const order = await prismaClient.order.update({
             where:{
                 id: order_id
             },
             data:{
-                status: true,
-                historic: true
+                historic: false
             }
         })
 
@@ -21,4 +20,4 @@ class FinishOrderService{
     }
 }
 
-export { FinishOrderService }
+export { FinishHistoricOrderService }
