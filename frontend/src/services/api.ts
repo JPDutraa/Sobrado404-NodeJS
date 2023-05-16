@@ -8,7 +8,7 @@ export function setupAPIClient(ctx = undefined){
   let cookies = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: 'http://192.168.1.1:3333',
+    baseURL: 'https://sobrado404-node-js.vercel.app',
     headers: {
       Authorization: `Bearer ${cookies['@nextauth.token']}`
     }
