@@ -53,6 +53,8 @@ model Order{
   status Boolean @default(false) //Se o pedido está finalizado
   draft Boolean @default(true) //Se o pedido está em rascunho
   historic Boolean @default(false) //Se o pedido está no histórico
+  active Boolean @default(true) //Se o pedido está ativo
+  pedido Boolean @default(false) //Se o pedido está em andamento
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
