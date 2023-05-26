@@ -11,7 +11,7 @@ class SendOrderService{
                 id: order_id,
             },
             data: {
-                draft: false,
+                pedido: true
             },
         });
 
